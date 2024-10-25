@@ -30,7 +30,7 @@
                 </li>
 
                 <!--SAVED WORDS-->
-                <li><a href="./tallennetut.html" class="menu-link">Saved words</a></li>
+                <li><a href="./tallennetut.html" class="menu-link" id="saved">Saved words</a></li>
 
                 <!--SETTINGS-->
                 <li class="has-dropdown">
@@ -54,18 +54,14 @@
         <button id="back">< Back to game</button> <!--Unicode-icon for left pointing arrow and word back-->
     </a>
     <!--List area-->
-    <div class="savedWordsContent" id="savedWordsContent">
-        <div class="list-area">
-            <ul class="savedWords" id="savedWords"></ul> <!--Saved words-->
-        </div>
 
-        <!--Saved words-->
+    <div class="saved-list-area" id="savedListArea">
+        <h3>SAVED WORDS</h3>
+        <ul class="saved-words-list" id="savedWordsList"></ul> <!--Saved words-->
+    </div>
         
 
-        <h3>SAVED WORDS</h3>
-        <output></output>
-    </div>
 
-    <script src="./js/func.js"></script>
+    <script src="./js/saved.js"></script>
 </body>
 </html>

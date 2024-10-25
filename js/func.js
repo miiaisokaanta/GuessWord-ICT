@@ -275,9 +275,28 @@ function disableKey(letter, color) {
 // Function to be called on win
 function win() {
     const translation = translations[currentWord.toLowerCase()];
-    alert(`You have guessed right! The word is "${currentWord}", which means "${translation}" in Finnish.`);
+    const save = confirm(`You have guessed right! The word is "${currentWord}", which means "${translation}" in Finnish. Do you want to save the word?`);
+    
+    if (save) {
+        addSavedList(currentWord, translation); // Save the word in localStorage
+        alert('Word saved!');
+    }
+    
     newGame(); // Start a new game after winning
 }
+
+// Tallennetaan sanat localStorageen
+function addSavedList(word, translation) {
+    // Haetaan jo tallennetut sanat tai luodaan tyhjä lista
+    let savedWords = JSON.parse(localStorage.getItem('savedWords')) || [];
+    
+    // Lisätään uusi sana ja käännös listaan
+    savedWords.push({ word, translation });
+    
+    // Tallennetaan lista localStorageen
+    localStorage.setItem('savedWords', JSON.stringify(savedWords));
+}
+
 
 // Initialize the game on page load
 window.onload = newGame;
