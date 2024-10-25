@@ -1,0 +1,595 @@
+:root{
+    box-sizing: border-box;
+    --primary: #333;
+    --hover-color: rgb(255, 196, 1);
+    --dark: #1c2022;
+    --light: #fff;
+}
+
+*, *::after, *::before{
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+
+
+
+/***THEMES***/
+
+
+/*Light mode*/
+body:has(option[value="light"]:checked){
+  --background-color: #fff;
+  --text-color: black;
+  --box-color: #fff;
+  --bubble-color: #fff;
+  --button-color: #fff;
+  --shadow-color:rgba(0,0,0,1);
+}
+
+/*Dark mode*/
+body:has(option[value="dark"]:checked){
+  --background-color: black;
+  --text-color: #fff;
+  --box-color: lightgray;
+  --bubble-color: #333;
+  --button-color: black;
+  --shadow-color: rgba(192,192,192,0.7);
+  
+}
+
+/*Sepia mode*/
+body:has(option[value="sepia"]:checked){
+  --background-color: #D2B48C;
+  --text-color: black;
+  --box-color: #EFDECD;
+  --bubble-color: #EFDECD;
+  --button-color: #D2B48C;
+  --shadow-color:black;
+}
+
+
+select{
+  left:0;
+  margin: 0em 1em;
+  padding:10px;
+  background-color:FFFFF;
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
+  border: 0.2em solid var(--shadow-color);
+  border-radius: 0.5em;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+
+/* GRID AREAS*/
+.content{
+    display: grid;
+    grid-gap: 5px;
+    position: relative;
+    grid-template-areas:
+        "navbar"
+        "aiheOtsikko"
+        "game-area"
+        "hahmo-container";
+    grid-template-columns: 1fr; /* Yksi sarake vie koko leveyden */
+    grid-auto-rows: minmax(50px, auto);
+    background-color: var(--background-color);
+    color: var(--text-color);
+
+}   
+
+.navbar{
+    grid-area: navbar;
+    background-color: var(--primary);
+    box-shadow: 0px 0px 10px 4px var(--shadow-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em 0.5em 1.5em;
+    border-bottom:1px solid var(--shadow-color);
+}
+
+
+.aiheOtsikko{
+    grid-area: aiheOtsikko;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5em;
+}
+
+
+h3{
+  font-size:1rem;
+  font-weight: normal;
+}
+.hahmo-container {
+    grid-area: hahmo-container;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    height: auto;
+    margin: auto;
+
+}
+
+.game-area{
+    grid-area: game-area;
+    padding: 1em;
+    margin: auto;
+    margin-bottom: 2em;
+    height: auto;
+    max-height: 70vh;
+    width: max(30vw, 80%);
+    min-width:fit-content;
+    background-color: #333;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    border:1px solid var(--shadow-color);
+    box-shadow: 0px 0px 10px 4px var(--shadow-color);
+    color: black; /*letters always black*/
+    font-weight: bold;
+}
+
+/* MENU */
+
+.branding-logo{
+    color: white;
+    font-size: calc(1rem + 1vw);
+    text-decoration: none;
+}
+
+.menu{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.menu li{
+    list-style: none;
+}
+
+.menu li a{
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 1em 1.5em;
+    font-size: 1.2rem;
+}
+
+/*MENU-ARROWS*/
+
+.arrow{
+    width: 0.5em;
+    height: 0.5em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -0.25em; /*getting it really middle with text*/
+    border-left: 0.15em solid currentColor;
+    border-bottom: 0.15em solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 150ms ease-in-out; /*smooth animation*/
+    font-size: small;
+}
+
+/*Animate arrows*/
+.menu > li:hover > a > .arrow{
+    transform: rotate(225deg); /*rotate to right*/
+}
+
+/*SUBMENU*/
+
+
+.has-dropdown {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    right: 0;  /* right value 0, right side is on same level than parent */
+    background-color: #2e2e2e;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.5);
+    white-space: nowrap; /* Disable line breaks; text on one row*/
+    padding: 0.7em 0; /*padding vertical and horizontal*/
+    /*Hide submenu when not hovered*/
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top center ;
+}
+
+/*Reveal submenu*/
+.menu > li:hover > a + .submenu{
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+
+.submenu > li > a {
+    padding: 0.7em 1.5em; /*padding vertical and horizontal (text)*/
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.menu > li:hover>a, .submenu > li:hover>a {
+    background-color: rgba(139, 139, 139, 0.2); /* hover nav links & submenu links; lighter background color */
+    color: var(--hover-color);
+    font-style: italic;
+    box-shadow:inset 0px 0px 10px 5px rgba(0, 0, 0, 0.7);
+}
+
+
+#back{
+    
+    padding: 0.8em;
+    background-color: var(--box-color);
+    box-shadow: 0px 0px 5px 1px var(--shadow-color);
+    border: 0.1em solid var(---color);
+    border-radius: 0.5em;
+    margin: 2em 1.5em;
+    
+}
+
+
+
+
+#savedWordsContent {
+    margin: 20px;
+}
+
+#hahmo{
+    width: min(30%, 60%); 
+    height: auto;
+    margin: 3%;
+}
+
+
+.puhekupla{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em;
+  box-shadow:0px 0px 10px 3px var(--shadow-color);
+  border-radius: 20px;
+  background-color: var(--bubble-color);
+  color: var(--text-color) ;
+}
+
+/*Without this, whole speechbubble & buttons move around with text changing (different size)*/
+.text-container {
+    padding: 5px;
+    height: 15vh;
+    width: 40vw;
+    overflow-y: auto;
+    overflow-x: auto;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;  /*text in middle*/
+    text-align: center;
+    justify-content: center;
+    font-style: italic;
+    font-size: 1em;
+    
+}
+
+.speech-button {
+    font-size: 13px;
+    padding: 8px 12px;
+    border: 1px solid #000;
+    border-radius: 15px;
+    margin: 2px;
+    margin-top: 0.5em; /*space between text and buttons*/
+    background-color: var(--button-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/*shows few box rows and then scrollable*/
+.scroll {
+    height: 25vh; /* "empty" space on top of game area, place for box-rows and area for scrolling*/
+    width: fit-content;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse; /*starts box-rows at bottom and moves them up when new row comes; scroll shows always newest row*/
+
+    
+  /* shows newest row*/
+}
+/* Word grid; boxes-rows ; space between letter-boxes (pystysuunta) */
+.word-grid {
+    display: flex;
+    gap: 0.2em; 
+    flex-direction: row;    
+
+}
+
+/* Word grid boxes = each letter */
+.word-box {
+    width: calc(2rem + 1.5vw);
+    height: calc(1.8rem + 1vh);
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.7);
+}
+
+    
+
+/* Word grid container; area for boxes */
+#wordGrid {
+    display: flex;
+    flex-direction: column;
+       /*HOX! JUSTIFY CONTENT MESSES UP SCROLL; cant see all content*/
+    gap: 5px; 
+    background-color: gray;
+    padding: 1em;
+    overflow: auto;
+    /*if height is told, then scroll does not focus on bottom/ newest row*/
+    max-width: 85vw;
+    box-shadow: inset 0px 0px 5px 1px rgba(0,0,0,1);
+    border: 0.1em solid black
+
+}
+
+/* Keyboard */
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(6, auto); /* Vähemmän näppäimiä rinnakkain mobiilissa */
+    gap: 0.25em;
+    padding: 3em 0.5em 1.5em 0.5em;
+    width: auto;
+    height: auto;
+    
+}
+
+.key {
+    padding: 0.7em;
+    background-color:var(--box-color);
+    border: 0.05em solid black;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1rem;
+    width: max(3rem, 1.5vw);
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,1), inset 0px 0px 5px 1px rgba(85, 85, 85, 0.5);
+
+}
+
+/* Delete-näppäimen tyyli */
+.delete-key {
+    background-color: rgba(255, 206, 206, 0.8);
+    font-size: 1rem;
+    
+}
+
+/* Enter-näppäimen tyyli */
+.enter-key {
+    background-color:rgba(173, 241, 173, 0.8);
+    font-size: 1rem;
+
+}
+
+
+#alert{
+  visibility: hidden;
+}
+
+
+/*Responsive*/
+
+@media screen and (max-width: 900px) {
+    .navbar{
+        position: relative;
+        padding: 2em;
+    }
+
+    .menu{
+        flex-flow: column;
+        position: absolute;
+        top: 5em;
+        left: 0;
+        right: 0;
+        height: fit-content;
+        padding: 1.5em 0em 1.5em 0em;
+        background-color: #333;
+        border: none;
+        box-shadow: 0px 0px 10px 0.5px #000;
+        /*for close/open menu from hamburger icon*/
+        opacity: 0;
+        transform: scaleY(0);
+        transform-origin: top center;
+        transition: 200ms transform cubic-bezier(0.36, 0.4, 0.42, 1.48) 200ms,
+        100ms opacity ease-in-out ;
+
+}
+
+    .submenu {
+        left: 0;  /* left side is on same level than parent */
+        padding: 1em 0; /*padding vertical and horizontal*/
+        border-left: 2px solid rgba(0, 0, 0, 0.2);
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
+        transition: 200ms transform cubic-bezier(0.36, 0.4, 0.42, 1.48) 200ms,
+        100ms opacity ease-in-out ;
+    }
+
+    .menu > li:hover > a + .submenu {
+        position: relative; /*Opened submenu will "push" below elements down so they won't lap*/
+     
+    }
+
+    .submenu > li > a, .menu > li > a {
+        padding: 0.8em 1.5em; /*padding vertical and horizontal (text)*/
+        color: white;
+        text-decoration: none;
+        font-size: 1.3em;
+    }
+
+
+    /*hamburger icon*/
+    .hamburger {
+        width: 2em;
+        height: 0.25em;
+        display: block;
+        background-color: var(--light);
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s transform ease-in-out;
+    }
+
+    .hamburger::after, .hamburger::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        background: inherit;
+        width: inherit;
+        height: inherit;
+        transition: 0.2s transform ease-in-out;
+    }
+
+    .hamburger::after{
+        top:0.65em;   
+    }
+
+    .hamburger::before{
+        bottom: 0.65em;
+    }
+
+    .close::after, .close::before {
+        top: 0;
+        transition: 0.2s transform ease-in-out;
+    };
+
+    .close::before{
+        display: none;
+    }
+
+    .close{
+        transform: rotate(45deg);
+        transition: 0.2s transform ease-in-out;
+    }
+
+    .close::after{
+        transform: rotate(-90deg);
+    }
+
+    /*reveal/ hide menu*/
+    input[type="checkbox"]:checked + .menu{
+        position: absolute;
+        opacity: 1;
+        transform: scaleY(1);
+    }
+
+}
+
+
+
+/*PC VIEW*/
+
+@media screen and (min-width: 900px) {
+
+    .content{
+        display: grid;
+        grid-gap: 5px;
+        position: relative;
+        grid-template-areas:
+            "navbar navbar navbar"
+            "aiheOtsikko aiheOtsikko aiheOtsikko"
+            "hahmo-container game-area empty-right"
+            ;    
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-auto-rows: minmax(3em, auto);
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        
+    }
+
+    .hahmo-container {
+        grid-area: hahmo-container;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: auto;
+        margin: auto;
+    }
+    
+
+    
+
+    #hahmo{
+        width: 70%;
+        height: auto;
+        margin-top: 2em;
+    }
+    
+
+    
+    /*Without this, whole speechbubble & buttons move around with text changing (different size)*/
+    .text-container {
+        padding: 0.5em;
+        height: 15vh;
+        max-width: 12vw;
+        overflow-y: auto;
+        overflow-x: auto;
+        word-wrap: break-word;
+        justify-content: center;
+        font-style: italic;
+        font-size: 0.7rem;
+        color: var(--text-color);
+    }
+    
+    .keyboard {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        padding: 3em 0.5em 1.5em 0.5em;
+        width: auto;
+        height: auto;
+    
+        
+    }
+    
+    .key {
+        padding: 0.9em;
+        background-color:var(--box-color);
+        border: 1px solid #000;
+        border-radius: 0.5em;
+        text-align: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.9rem;
+        width: max(4.5rem, 1.5vw);
+    }
+
+    
+    
+
+    
+
+    
+
+
+}
